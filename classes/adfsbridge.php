@@ -76,13 +76,11 @@ class AdfsBridge {
                 if ($blockAlgorithm=$topNode->getAttribute("Algorithm") ) {
                     switch ($blockAlgorithm) {
                         case "http://www.w3.org/2001/04/xmlenc#aes256-cbc":
-                            $mcrypt_cipher = MCRYPT_RIJNDAEL_128;
-                            $mcrypt_mode = MCRYPT_MODE_CBC;
+							              $mcrypt_mode = 'AES-256-CBC';
                             $iv_length = 16;
                             break;
                         case "http://www.w3.org/2001/04/xmlenc#aes128-cbc":
-                            $mcrypt_cipher = MCRYPT_RIJNDAEL_128;
-                            $mcrypt_mode = MCRYPT_MODE_CBC;
+							              $mcrypt_mode = 'AES-128-CBC';
                             $iv_length = 16;
                             break;
                         default:
@@ -142,7 +140,7 @@ class AdfsBridge {
                                                         $blockCipher = substr($blockCipher, $iv_length);
                                                     }
                                                     // Decrypt and get the token.
-                                                    $decryptedToken = mcrypt_decrypt($mcrypt_cipher, $blockCipherKey, $blockCipher, $mcrypt_mode, $mcrypt_iv);
+													                          $decryptedToken = openssl_decrypt($blockCipher, $mcrypt_mode, $blockCipherKey, OPENSSL_RAW_DATA, $mcrypt_iv);
                                                     if (!$decryptedToken) {
                                                         throw new Exception("Decryption of token failed.");
                                                     }
