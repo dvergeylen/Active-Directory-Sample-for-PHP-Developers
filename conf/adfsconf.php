@@ -8,22 +8,11 @@ class AdfsConf {
     public $adfsUrl = 'https://adfsdemo2.com/adfs/ls/';
     
     public $spIdentifier = 'urn:federation:php.interop.schakra.com-adfsdemo';
-       
-    /**
-     * Content of the PEM certificate. If this certificate is protected by
-     * password, you need to set encryptionCertPassword correctly.
-     * 
-     * If you provide certificate data, then it will ignore any value
-     * configured for certificate path. 
-     */
-    public $encryptionCertData = '';
     
     /**
-     *
+     * PEM Certificate with Private KEY included location
      */
-    public $encryptionCertPath = '';
     
-    public $encryptionCertPassword = '';   
     
     protected static $_instance = NULL;
 

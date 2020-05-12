@@ -1,56 +1,58 @@
-<?php    
+<?php
     if(!isset($_SESSION)) {
         session_start();
     }
     include_once("classes/adfsbridge.php");
-    include_once("classes/adfsuserdetails.php");
-    include_once("conf/adfsconf.php"); 
-    include_once("showarray.php");
+    include_once("conf/adfsconf.php");
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Active Directory Federation Services - Authentication Demo</title>
-        <link href="css/default.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-        <div id="wrapper">
-        <?php include 'include/header.php'; ?>
-            <div id="page">
-                <div id="content">
-                    <div id="welcome">
-                        <h1>ADFS Authentication Demo</h1>
-                        <?php if(!isset($_SESSION['AdfsUserDetails'])) : ?>
-                            <p>
-                                This sample demonstrate authentication to a site using ADFS.
-                            </p>
-                            <p>
-                                Click on the 'Log In' button to authenticate with ADFS Server.
-                            </p>                        
-                        <?php else : ?>
-                            <?php
-                                // Show User ID and attributes.
-                                $userDetails = unserialize($_SESSION['AdfsUserDetails']);         
-                                echo '<b>Name Identifier: </b>'. $userDetails->nameIdentifier;  
-                                
-                                echo '<h4>Attributes: </h4>';
-                                htmlShowArray($userDetails->attributes);
-                            ?>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div id="sidebar">
-                    <ul>
-                        <?php include 'authform.php'; ?>
-                        <?php include 'include/solutions.php'; ?>
-                        <?php include 'include/learnmore.php'; ?>
-                    </ul>
-                </div>
-                <div style="clear: both; height: 1px"></div>
-            </div>
-            <?php include 'include/footer.php'; ?>
-        </div>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Adfs Minimal example</title>
+		<style>
+			#container {
+				width: 80%;
+				margin: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<h1>ADFS Minimal Example</h1>
+			<?php if(!isset($_SESSION['AdfsUserDetails'])) : ?>
+				<p>
+					<strong>You are not logged In!</strong>
+				</p>
+				<form action="authform.php" method="post" name="login" id="form-login">
+					<input type="hidden" name="authaction" value="Login" />
+					<input type="submit" name="Submit" class="button" value="Log in" />
+				</form>
+			<?php else : ?>
+				<p>
+					<strong>You are logged In!</strong>
+				</p>
+				<form action="authform.php" method="post" name="login" id="form-logout">
+					<input type="hidden" name="authaction" value="Logout" />
+					<input type="submit" name="Submit" class="button" value="Log out" />
+				</form>
+				<?php
+					// Show User ID and attributes.
+					$userDetails =$_SESSION['AdfsUserDetails'];
+					echo '<p>';						
+					echo '<b>Name Identifier: </b>'. $userDetails['nameIdentifier'];
+					echo '</p>';
+					echo '<p>';						
+					echo '<b>Name Identifier Format: </b>'. $userDetails['nameIdentifierFormat'];
+					echo '</p>';
+					
+					echo '<h4>Attributes: </h4>';
+					echo '<pre>';
+					var_dump($userDetails['attributes']);
+					echo '</pre>';
+				?>
+			<?php endif; ?>
+		</div>
+	</body>
 </html>

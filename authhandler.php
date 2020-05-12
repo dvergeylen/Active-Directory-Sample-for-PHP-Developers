@@ -22,7 +22,7 @@
                                 $_REQUEST['wctx']);
 
                 // Set the user details in session.
-                $_SESSION['AdfsUserDetails'] = serialize($userDetails);
+                $_SESSION['AdfsUserDetails'] = $userDetails;
                 // Expect return url in wctx (set by authform.php)
                 header('Location: '. $_REQUEST['wctx']);
             } catch (Exception $e) {
